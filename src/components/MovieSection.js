@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { mvSecFooterHeight, mvSecFooterColor } from "../styles/colorsAndHeights";
 
 // variables 
 import { headerHeight, cineFlexOrange, cineFlexH1Color, cineFlexH2Color, cineFlexHeight } from "../styles/colorsAndHeights"
@@ -32,35 +33,45 @@ export default function MovieSection() {
     console.log(movieDaysArrived);
     
     return(
-    <>
-        {movieDaysArrived ? ( 
-            <MovieSectionWrapper>
-            <MovieSectionTitle>Selecione o horário</MovieSectionTitle>
-            <MovieDays>
-                <ul>
-                    {movieDays.map(movieDay => (    
-                        <DayAndHoursOption key={movieDay.id}> 
-                            <h2>{movieDay.weekday} - {movieDay.date}</h2> 
-                            <section>
-                                {movieDay.showtimes.map(time => (
-                                    <button key={time.id}>
-                                        <p>{time.name}</p>
-                                    </button>
-                                ))}
-                            </section>
-                        </DayAndHoursOption>
-                    ))}
-                </ul>
-            </MovieDays>
-            </MovieSectionWrapper>
-        ) : (
-            <Loader/>
-        )}
-    </>
+        <>
+            {movieDaysArrived ? ( 
+                <MovieSectionWrapper>
+                    <MovieSectionTitle>Selecione o horário</MovieSectionTitle>
+                    <MovieDays>
+                        <ul>
+                            {movieDays.map(movieDay => (    
+                                <DayAndHoursOption key={movieDay.id}> 
+                                    <h2>{movieDay.weekday} - {movieDay.date}</h2> 
+                                    <Hours>
+                                        {movieDay.showtimes.map(time => (
+                                            <HoursButton key={time.id}>
+                                                <p>{time.name}</p>
+                                            </HoursButton>
+                                        ))}
+                                    </Hours>
+                                </DayAndHoursOption>
+                            ))}
+                        </ul>
+                    </MovieDays>
+                    <MovieSectionFooter>
+                        <MovieInfo>
+                            <figure>
+                                <img srd="#"/>
+                            </figure>
+                            <p></p>
+                        </MovieInfo>
+                    </MovieSectionFooter>
+                </MovieSectionWrapper>
+            ) : (
+                <Loader/>
+            )}
+        </>
     )
 }
 
-const MovieSectionWrapper = styled.main``
+const MovieSectionWrapper = styled.main`
+    height: calc(calc(100vh - ${headerHeight}) - ${mvSecFooterHeight});
+`
 
 const MovieSectionTitle = styled.h1`
     font-family: 'Roboto';
@@ -74,12 +85,14 @@ const MovieSectionTitle = styled.h1`
 `
 
 const MovieDays = styled.section`
+    overflow-y: scroll;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: calc(calc(calc(100vh - ${headerHeight}) - ${mvSecFooterHeight}) - ${cineFlexHeight});
 `
 
-const DayAndHoursOption = styled.div`
+const DayAndHoursOption = styled.li`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -91,37 +104,52 @@ const DayAndHoursOption = styled.div`
         font-family: 'Roboto';
         font-size: 20px;      
         color: ${cineFlexH2Color};
-    }
-    
-    > section {
-        display: inline-block;
-        white-space: nowrap; 
-        overflow-x: scroll;
-        width: 100;
-        height: 43px;
+    } 
+`
 
-         /* Hide scrollbar for Chrome, Safari and Opera */
+const Hours = styled.section`
+    display: inline-block;
+    white-space: nowrap; 
+    overflow-x: scroll;
+    width: 100;
+    height: 43px;
+   
+    @media (max-width: 500px) {
+        /* Hide scrollbar for Chrome, Safari and Opera */
         &::-webkit-scrollbar {
         display: none;
         }
-
         /* Hide scrollbar for IE, Edge and Firefox */
         -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */ 
+        scrollbar-width: none;  /* Firefox */    
+    }
 
-        button {
-            width: 83px;
-            height: 100%;
-            background: ${cineFlexOrange};
-            border-radius: 3px;
-            border: none;
-            margin-right: 1em;
+`
 
-            > p {
-                font-family: 'Roboto';
-                font-size: 18px;
-                color: #FFFFFF;
-            }
-        }
-    }    
+const HoursButton = styled.button`
+    width: 83px;
+    height: 100%;
+    background: ${cineFlexOrange};
+    border-radius: 3px;
+    border: none;
+    margin-right: 1em;
+    > p {
+        font-family: 'Roboto';
+        font-size: 18px;
+        color: #FFFFFF;
+    }
+`
+
+const MovieSectionFooter = styled.footer`
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: ${mvSecFooterHeight};
+    width: 100vw;
+    background-color: ${mvSecFooterColor};
+    box-shadow: 0px 0px 10px #0000006f;
+`
+
+const MovieInfo = styled.span`
+
 `
