@@ -1,7 +1,13 @@
+// libraries
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// reset-css
+import GlobalStyle from "./styles/GlobalStyle";
+
+// components
 import NavBar from "./components/NavBar"
 import Home from "./components/Home"
-import GlobalStyle from "./styles/GlobalStyle";
+import MovieSection from "./components/MovieSection"
 
 function App() {
   return (
@@ -10,9 +16,7 @@ function App() {
       <NavBar/>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/" element={<Home />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/" element={<Home />} /> */}
+        <Route path="/sessoes/:idFilme" element={<MovieSection />} />
       </Routes>
     </BrowserRouter>
   );

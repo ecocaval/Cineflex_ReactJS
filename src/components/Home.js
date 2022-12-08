@@ -1,11 +1,13 @@
 // libraries
 import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import axios from "axios"
-import { useEffect, useState } from "react"
 
 // variables 
 import { headerHeight, cineFlexH1Color, cineFlexHeight } from "../styles/colorsAndHeights"
+
+// components
 import Loader from "./Loader"
 
 export default function Home(){
@@ -28,10 +30,10 @@ export default function Home(){
         <>
             {moviesArrived ? (
                 <HomeWrapper>
-                    <h1>Selecione o Filme</h1>
+                    <HomeTitle>Selecione o Filme</HomeTitle>
                     <MoviesWrapper>
                         {moviesList.map(movie => (
-                                <Link key={movie.id}>
+                                <Link to={`/sessoes/${movie.id}`}key={movie.id}>
                                     <img src={movie.posterURL}/>
                                 </Link>
                             ))}
@@ -46,16 +48,17 @@ export default function Home(){
 
 const HomeWrapper = styled.main`  
     height: calc(100vh - ${headerHeight});
-    > h1 {
-        font-family: 'Roboto';
-        font-size: 24px;
-        height: ${cineFlexHeight};
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: ${cineFlexH1Color};
-    }
+`
+
+const HomeTitle = styled.h1`
+    font-family: 'Roboto';
+    font-size: 24px;
+    height: ${cineFlexHeight};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: ${cineFlexH1Color};
 `
 
 const MoviesWrapper = styled.section`
