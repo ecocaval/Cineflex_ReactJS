@@ -43,18 +43,9 @@ export default function MovieSection() {
                             <h2>{movieDay.weekday} - {movieDay.date}</h2> 
                             <section>
                                 {movieDay.showtimes.map(time => (
-                                    <span>
-                                        <button key={time.id}>
-                                            <p>{time.name}</p>
-                                        </button>
-                                        <button key={time.id}>
-                                            <p>{time.name}</p>
-                                        </button>
-                                        <button key={time.id}>
-                                            <p>{time.name}</p>
-                                        </button>
-                                    </span>
-                                    
+                                    <button key={time.id}>
+                                        <p>{time.name}</p>
+                                    </button>
                                 ))}
                             </section>
                         </DayAndHoursOption>
