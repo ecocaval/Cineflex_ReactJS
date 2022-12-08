@@ -12,12 +12,22 @@ export default function Loader() {
 
 const LoaderWrapper = styled.main`
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: auto;
     height: calc(100vh - ${headerHeight});
+    animation: loaderSpin 1s linear infinite;
+
+    @keyframes loaderSpin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
     > img {
-        width: 200px;
+        width: 120px;
     }
 `
