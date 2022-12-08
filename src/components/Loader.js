@@ -16,7 +16,11 @@ const LoaderWrapper = styled.main`
     align-items: center;
     width: auto;
     height: calc(100vh - ${headerHeight});
-    animation: loaderSpin 1s linear infinite;
+    
+    > img {
+        width: 120px;
+        animation: loaderSpin 1s linear infinite;
+    }
 
     @keyframes loaderSpin {
         from {
@@ -25,9 +29,5 @@ const LoaderWrapper = styled.main`
         to {
             transform: rotate(360deg);
         }
-    }
-
-    > img {
-        width: 120px;
-    }
+    }    
 `

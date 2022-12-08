@@ -64,7 +64,6 @@ const HomeTitle = styled.h1`
 const MoviesWrapper = styled.section`
     display: flex;
     flex-wrap: wrap;
-    padding: 0 10vw 15px 10vw;
     justify-content: center;
     align-items: center;
     height: calc(calc(100vh - ${headerHeight}) - ${cineFlexHeight});
