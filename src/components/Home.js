@@ -5,7 +5,7 @@ import styled from "styled-components"
 import axios from "axios"
 
 // variables 
-import { headerHeight, cineFlexH1Color, cineFlexHeight } from "../styles/colorsAndHeights"
+import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight } from "../styles/colorsAndHeights"
 
 // components
 import Loader from "./Loader"
@@ -58,7 +58,7 @@ const HomeTitle = styled.h1`
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: ${cineFlexH1Color};
+    color: ${cineFlexSimpleTextColor};
 `
 
 const MoviesWrapper = styled.section`

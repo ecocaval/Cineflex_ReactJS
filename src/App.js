@@ -7,7 +7,8 @@ import GlobalStyle from "./styles/GlobalStyle";
 // components
 import NavBar from "./components/NavBar"
 import Home from "./components/Home"
-import MovieSection from "./components/MovieSection"
+import MovieTimeSection from "./components/MovieTimeSection"
+import MovieSeatsSection from "./components/MovieSeatsSection";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
       <NavBar/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/sessoes/:idFilme" element={<MovieSection />} />
+        <Route path="/sessoes/:idFilme" element={<MovieTimeSection />} />
+        <Route path="/assentos/:idSessao" element={<MovieSeatsSection />} />
       </Routes>
     </BrowserRouter>
   );

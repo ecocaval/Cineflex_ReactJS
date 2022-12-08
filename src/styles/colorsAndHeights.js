@@ -2,7 +2,7 @@
 export const headerColor = "#C3CFD9"
 export const headerHeight = "67px"
 
-// MovieSection colors and heights
+// MovieTimeSection colors and heights
 export const mvSecFooterHeight = "117px"
 export const mvSecFooterColor = "#DFE6ED"
 
@@ -11,6 +11,5 @@ export const mvSecFooterColor = "#DFE6ED"
 
 // Generic colors and heights
 export const cineFlexOrange = "#E8833A"
-export const cineFlexH1Color = "#293845"
-export const cineFlexH2Color = "#293845"
+export const cineFlexSimpleTextColor = "#293845"
 export const cineFlexHeight = "110px"

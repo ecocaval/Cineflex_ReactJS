@@ -1,18 +1,20 @@
 // libraries
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
-import { mvSecFooterHeight, mvSecFooterColor } from "../styles/colorsAndHeights";
 
 // variables 
-import { headerHeight, cineFlexOrange, cineFlexH1Color, cineFlexH2Color, cineFlexHeight } from "../styles/colorsAndHeights"
+import { headerHeight, cineFlexOrange, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor } from "../styles/colorsAndHeights"
 
-//components
+// components
 import Loader from "./Loader";
+import MovieSeatsSection from "./MovieSeatsSection";
 
-export default function MovieSection() {
+export default function MovieTimeSection() {
     const { idFilme } = useParams()
+    const [movieInfo, setMovieInfo] = useState([])
     const [movieDays, setMovieDays] = useState([]);
     const movieShowTimesUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
 
@@ -20,41 +22,46 @@ export default function MovieSection() {
         axios.get(movieShowTimesUrl)
             .then(res => {                
                 setMovieDays(res.data.days)
+                setMovieInfo(res.data)
             })
     }, [])
+
+    console.log(movieDays);
 
     const movieDaysArrived = (movieDays[0] != undefined ? true : false)
     
     return(
         <>
             {movieDaysArrived ? ( 
-                <MovieSectionWrapper>
-                    <MovieSectionTitle>Selecione o horário</MovieSectionTitle>
+                <MovieTimeSectionWrapper>
+                    <MovieTimeSectionTitle>Selecione o horário</MovieTimeSectionTitle>
                     <MovieDays>
                         <ul>
                             {movieDays.map(movieDay => (    
                                 <DayAndHoursOption key={movieDay.id}> 
                                     <h2>{movieDay.weekday} - {movieDay.date}</h2> 
                                     <Hours>
-                                        {movieDay.showtimes.map(time => (
-                                            <HoursButton key={time.id}>
-                                                <p>{time.name}</p>
-                                            </HoursButton>
+                                        {movieDay.showtimes.map(showTime => (
+                                            <Link key={showTime.id} to={`/assentos/${showTime.id}`}>
+                                                <HoursButton>
+                                                    <p>{showTime.name}</p>
+                                                </HoursButton>
+                                            </Link>
                                         ))}
                                     </Hours>
                                 </DayAndHoursOption>
                             ))}
                         </ul>
                     </MovieDays>
-                    <MovieSectionFooter>
+                    <MovieTimeSectionFooter>
                         <MovieInfo>
                             <figure>
-                                <img srd="#"/>
+                                <img src={movieInfo.posterURL}/>
                             </figure>
-                            <p></p>
+                            <p>{movieInfo.title}</p>
                         </MovieInfo>
-                    </MovieSectionFooter>
-                </MovieSectionWrapper>
+                    </MovieTimeSectionFooter>
+                </MovieTimeSectionWrapper>
             ) : (
                 <Loader/>
             )}
@@ -62,11 +69,11 @@ export default function MovieSection() {
     )
 }
 
-const MovieSectionWrapper = styled.main`
+const MovieTimeSectionWrapper = styled.main`
     height: calc(calc(100vh - ${headerHeight}) - ${mvSecFooterHeight});
 `
 
-const MovieSectionTitle = styled.h1`
+const MovieTimeSectionTitle = styled.h1`
     font-family: 'Roboto';
     font-size: 24px;
     height: ${cineFlexHeight};
@@ -74,7 +81,7 @@ const MovieSectionTitle = styled.h1`
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: ${cineFlexH1Color};
+    color: ${cineFlexSimpleTextColor};
 `
 
 const MovieDays = styled.section`
@@ -98,7 +105,7 @@ const DayAndHoursOption = styled.li`
     > h2 {
         font-family: 'Roboto';
         font-size: 20px;      
-        color: ${cineFlexH2Color};
+        color: ${cineFlexSimpleTextColor};
     } 
 `
 
@@ -135,10 +142,12 @@ const HoursButton = styled.button`
     }
 `
 
-const MovieSectionFooter = styled.footer`
+const MovieTimeSectionFooter = styled.footer`
     position: fixed;
     bottom: 0;
     left: 0;
+    display: flex;
+    align-items: center;
     height: ${mvSecFooterHeight};
     width: 100vw;
     background-color: ${mvSecFooterColor};
@@ -146,5 +155,27 @@ const MovieSectionFooter = styled.footer`
 `
 
 const MovieInfo = styled.span`
-
+    display: flex;
+    align-items: center;
+    margin-left: 0.8em;
+    > figure {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 64px !important;
+        height: 89px;
+        background: #FFFFFF;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        > img {
+            width: 48px;
+            height: 72px;
+        }
+    }
+    > p {
+        font-family: 'Roboto';
+        font-size: 26px;
+        color: ${cineFlexSimpleTextColor};
+        margin-left: 0.8em;
+    }
 `
