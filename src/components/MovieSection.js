@@ -13,24 +13,17 @@ import Loader from "./Loader";
 
 export default function MovieSection() {
     const { idFilme } = useParams()
-    const [movieHourInfo, setMovieHourInfo]  = useState({})
     const [movieDays, setMovieDays] = useState([]);
-
-    const movieHourInfoUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
+    const movieShowTimesUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
 
     useEffect(() => {
-        axios.get(movieHourInfoUrl)
-            .then(res => {
-                setMovieHourInfo(res.data)
+        axios.get(movieShowTimesUrl)
+            .then(res => {                
                 setMovieDays(res.data.days)
             })
     }, [])
 
     const movieDaysArrived = (movieDays[0] != undefined ? true : false)
-
-    console.log(movieDays);
-
-    console.log(movieDaysArrived);
     
     return(
         <>
@@ -89,7 +82,9 @@ const MovieDays = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(calc(calc(100vh - ${headerHeight}) - ${mvSecFooterHeight}) - ${cineFlexHeight});
+    > ul {
+        height: calc(calc(calc(100vh - ${headerHeight}) - ${mvSecFooterHeight}) - ${cineFlexHeight});
+    }
 `
 
 const DayAndHoursOption = styled.li`
