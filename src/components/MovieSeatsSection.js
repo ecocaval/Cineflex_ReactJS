@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // variables 
-import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor } from "../styles/colorsAndHeights"
+import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor, selectedSeatColor, selectedSeatBorderColor, availableSeatColor, availableSeatBorderColor, occupiedSeatColor, occupiedSeatBorderColor } from "../styles/colorsAndHeights"
 
 // components
 import Loader from "./Loader";
@@ -13,33 +13,23 @@ import Loader from "./Loader";
 export default function MovieSeatsSection() {
 
     const { idSessao } = useParams()
+    const [movieInfo, setSeatsInfo] = useState([])
+
+    const seatStatesInfo = [
+        { backColor: selectedSeatColor, borderColor: selectedSeatBorderColor, text: "Selecionado" },
+        { backColor: availableSeatColor, borderColor: availableSeatBorderColor, text: "Disponível" },
+        { backColor: occupiedSeatColor, borderColor: occupiedSeatBorderColor, text: "Indisponível" },
+    ]
 
     const seatsInfoUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
-    const [movieInfo, setSeatsInfo] = useState([])
-    const seatStatesInfo = [
-        {
-            backColor: "#1AAE9E",
-            borderColor: "#0E7D71",
-            text: "Selecionado"
-        },
-        {
-            backColor: "#C3CFD9",
-            borderColor: "#7B8B99",
-            text: "Disponível"
-        },
-        {
-            backColor: "#FBE192",
-            borderColor: "#F7C52B",
-            text: "Indisponível"
-        },
-    ]
+
     let moviesArrived = false;
 
     useEffect(() => {
         axios.get(seatsInfoUrl)
             .then(res => {
                 setSeatsInfo(res.data)
-                console.log(res.data);
+                console.log(res.data.seats);
             })
             .catch(err => {
                 console.error(err)
@@ -59,7 +49,7 @@ export default function MovieSeatsSection() {
                     <MovieSeatsSectionTitle>Selecione o(s) assento(s)</MovieSeatsSectionTitle>
                     <Seats>
                         {movieInfo.seats.map(seat => (
-                            <Seat key={seat.id}>
+                            <Seat key={seat.id} seatIsAvaiable={seat.isAvailable}>
                                 <p>{seat.name}</p>
                             </Seat>
                         ))}
@@ -78,14 +68,14 @@ export default function MovieSeatsSection() {
                                 <img src={movieInfo.movie.posterURL} />
                             </figure>
                             <div>
-                                <p>{movieInfo.movie.title}</p>  
+                                <p>{movieInfo.movie.title}</p>
                                 <p>{movieInfo.day.weekday + " - " + movieInfo.name}</p>
                             </div>
                         </MovieInfo>
                     </MovieSeatsSectionFooter>
                 </MovieSeatsSectionWrapper>
             ) : (
-                <Loader/>
+                <Loader />
             )}
         </>
     )
