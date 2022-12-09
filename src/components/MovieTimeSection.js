@@ -10,11 +10,10 @@ import { headerHeight, cineFlexOrange, cineFlexSimpleTextColor, cineFlexHeight, 
 // components
 import Loader from "./Loader";
 
-export default function MovieTimeSection() {
+export default function MovieTimeSection({ movieInfo, setMovieInfo }) {
 
     const { idFilme } = useParams()
-    const [movieInfo, setMovieInfo] = useState([])
-    
+
     const movieShowTimesUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
     let moviesArrived = false;
 

@@ -10,20 +10,17 @@ import { headerHeight, cineFlexOrange, cineFlexSimpleTextColor, cineFlexHeight, 
 // components
 import Loader from "./Loader";
 import Seat from "./Seat";
+import BuyerForm from "./BuyerForm";
 
-export default function MovieSeatsSection() {
+export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSeatsIds, setSelectedSeatsIds, selectedSeatsNumbers, setSelectedSeatsNumbers }) {
 
     const { idSessao } = useParams()
-    const [movieInfo, setSeatsInfo] = useState([])
-    const [buyer, setBuyer] = useState("");
-    const [buyerCPF, setBuyerCPF] = useState("");
 
     const seatStatesInfo = [
         { backColor: selectedSeatColor, borderColor: selectedSeatBorderColor, text: "Selecionado" },
         { backColor: availableSeatColor, borderColor: availableSeatBorderColor, text: "Disponível" },
         { backColor: occupiedSeatColor, borderColor: occupiedSeatBorderColor, text: "Indisponível" },
     ]
-
 
     const seatsInfoUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
 
@@ -33,14 +30,15 @@ export default function MovieSeatsSection() {
         axios.get(seatsInfoUrl)
             .then(res => {
                 setSeatsInfo(res.data)
-                console.log(res.data.seats);
+                console.log(res.data)
+
             })
             .catch(err => {
                 console.error(err)
             })
     }, [])
 
-    if (movieInfo.seats !== undefined) {
+    if (seatsInfo.seats !== undefined) {
         moviesArrived = true;
     } else {
         moviesArrived = false;
@@ -49,67 +47,46 @@ export default function MovieSeatsSection() {
     return (
         <>
             {moviesArrived ? (
-                <MovieSeatsSectionWrapper>
+                <main>
                     <MovieSeatsSectionTitle>Selecione o(s) assento(s)</MovieSeatsSectionTitle>
                     <Seats>
-                        {movieInfo.seats.map(seat => (
-                            <Seat key={seat.id} seat={seat} />
+                        {seatsInfo.seats.map(seat => (
+                            <Seat
+                                key={seat.id}
+                                seat={seat}
+                                selectedSeatsIds={selectedSeatsIds}
+                                setSelectedSeatsIds={setSelectedSeatsIds}
+                                selectedSeatsNumbers={selectedSeatsNumbers} setSelectedSeatsNumbers={setSelectedSeatsNumbers}
+                            />
                         ))}
                     </Seats>
                     <SeatsStatesSection>
                         {seatStatesInfo.map((seatState, i) => (
-                            <SeatState key={i} seatState={seatState}>
-                                <div></div>
+                            <SeatState key={i}>
+                                <SeatStateIcon seatState={seatState} />
                                 <p>{seatState.text}</p>
                             </SeatState>
                         ))}
                     </SeatsStatesSection>
-                    <BuyerForm>
-                        <div>
-                            <p>Nome do comprador:</p>
-                            <input
-                                type="text"
-                                placeholder="Digite seu nome..."
-                                value={buyer}
-                                onChange={e => setBuyer(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <p>CPF do comprador:</p>
-                            <input
-                                type="number"
-                                placeholder="Digite seu CPF..."
-                                value={buyerCPF}
-                                onChange={e => setBuyerCPF(e.target.value)}
-                            />
-                        </div>
-                        <button type="submit">
-                            <p>
-                                Reservar assento(s)
-                            </p>
-                        </button>
-                    </BuyerForm>
+                    <BuyerForm selectedSeatsIds={selectedSeatsIds} />
                     <MovieSeatsSectionFooter>
                         <MovieInfo>
                             <figure>
-                                <img src={movieInfo.movie.posterURL} />
+                                <img src={seatsInfo.movie.posterURL} />
                             </figure>
                             <div>
-                                <p>{movieInfo.movie.title}</p>
-                                <p>{movieInfo.day.weekday + " - " + movieInfo.name}</p>
+                                <p>{seatsInfo.movie.title}</p>
+                                <p>{seatsInfo.day.weekday + " - " + seatsInfo.name}</p>
                             </div>
                         </MovieInfo>
                     </MovieSeatsSectionFooter>
-                </MovieSeatsSectionWrapper>
+                </main>
             ) : (
                 <Loader />
             )}
         </>
     )
 }
-
-const MovieSeatsSectionWrapper = styled.main`
-`
 
 const MovieSeatsSectionTitle = styled.h1`
     font-family: 'Roboto';
@@ -143,19 +120,19 @@ const SeatState = styled.div`
     justify-content: center;
     align-items: center;
     margin: 0px 20px;
-    > div {
-        background: ${props => props.seatState.backColor};
-        border: 1px solid ${props => props.seatState.borderColor};
-        border-radius: 13px;
-        width: 26px;
-        height: 26px;
-        margin: 0px 3px 3px 3px;
-    }
     > p {
         font-family: 'Roboto';
         font-size: 13px;
         color: #4E5A65;
     }
+`
+const SeatStateIcon = styled.div`
+    background: ${props => props.seatState.backColor};
+    border: 1px solid ${props => props.seatState.borderColor};
+    border-radius: 13px;
+    width: 26px;
+    height: 26px;
+    margin: 0px 3px 3px 3px;
 `
 
 const MovieSeatsSectionFooter = styled.footer`
@@ -194,48 +171,6 @@ const MovieInfo = styled.span`
             font-size: 26px;
             color: ${cineFlexSimpleTextColor};
             margin-left: 0.8em;
-        }
-    }
-`
-
-const BuyerForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2em;
-    > div {
-        margin-bottom: 1em;
-        > p {
-            font-family: 'Roboto';;
-            font-size: 18px;
-            color: ${cineFlexSimpleTextColor};
-            margin-bottom: 5px;
-        }
-        > input {
-            width: 327px;
-            height: 51px;
-            background: #FFFFFF;
-            border: 1px solid #D5D5D5;
-            border-radius: 3px;
-            font-family: 'Roboto';
-            font-style: italic;
-            font-size: 18px;
-            color: #AFAFAF;
-            padding-left: 10px;
-        }
-    }
-    > button {
-        width: 225px;
-        height: 42px;
-        background: ${cineFlexOrange};
-        border-radius: 3px;
-        border: none;
-        margin-top: 1.2em;
-        > p {
-            font-family: 'Roboto';
-            font-size: 18px;
-            color: #FFFFFF;
         }
     }
 `

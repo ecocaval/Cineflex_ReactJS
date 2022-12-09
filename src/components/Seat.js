@@ -5,15 +5,40 @@ import styled from "styled-components";
 // variables 
 import { availableSeatColor, availableSeatBorderColor, occupiedSeatColor, occupiedSeatBorderColor, selectedSeatColor, selectedSeatBorderColor } from "../styles/colorsAndHeights"
 
-export default function Seat({ seat }) {
+export default function Seat({ seat, selectedSeatsIds, setSelectedSeatsIds, selectedSeatsNumbers, setSelectedSeatsNumbers }) {
+    // const [seatIsSelected, setSeatIsSelected] = useState(false)
 
-    const [seatIsSelected, setSeatIsSelected] = useState(false)
+    const seatIsSelected = selectedSeatsIds.includes(seat.id)
+
+    function selectSeat() {
+        if(!seat.isAvailable) {
+            alert("Este assento não está disponível")
+            return;
+        }
+        if(!seatIsSelected) {
+            setSelectedSeatsIds([...selectedSeatsIds, seat.id])
+            setSelectedSeatsNumbers([...selectedSeatsNumbers, seat.name])
+        } else {
+            const updatedSelectedSeatsIds = [...selectedSeatsIds]
+            const updatedSelectedSeatsNumbers = [...selectedSeatsNumbers]
+            const seatToRemoveIndex = selectedSeatsIds.indexOf(seat.id)
+
+            updatedSelectedSeatsIds.splice(seatToRemoveIndex,1)
+            updatedSelectedSeatsNumbers.splice(seatToRemoveIndex,1)
+            
+            setSelectedSeatsIds(updatedSelectedSeatsIds)
+            setSelectedSeatsNumbers(updatedSelectedSeatsNumbers)
+        }
+    }
+
+    console.log(selectedSeatsIds)
+    console.log(selectedSeatsNumbers)
 
     return (
         <StyledSeat
             seatIsAvailable={seat.isAvailable}
             seatIsSelected={seatIsSelected}
-            onClick={() => setSeatIsSelected(true)}
+            onClick={selectSeat}
         >
             <p>{seat.name}</p>
         </StyledSeat>
