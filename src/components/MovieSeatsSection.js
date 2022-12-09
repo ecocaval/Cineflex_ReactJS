@@ -4,16 +4,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-
 // variables 
 import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor } from "../styles/colorsAndHeights"
 
-export default function MovieSeatsSection({ movieInfo, timeInfo }) {
+// components
+import Loader from "./Loader";
+
+export default function MovieSeatsSection() {
 
     const { idSessao } = useParams()
 
     const seatsInfoUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
-    const [seatsInfo, setSeatsIngo] = useState([])
+    const [movieInfo, setSeatsInfo] = useState([])
     const seatStatesInfo = [
         {
             backColor: "#1AAE9E",
@@ -31,50 +33,60 @@ export default function MovieSeatsSection({ movieInfo, timeInfo }) {
             text: "Indisponível"
         },
     ]
+    let moviesArrived = false;
 
     useEffect(() => {
         axios.get(seatsInfoUrl)
             .then(res => {
-                setSeatsIngo(res.data.seats)
+                setSeatsInfo(res.data)
+                console.log(res.data);
             })
             .catch(err => {
                 console.error(err)
             })
     }, [])
 
-    // console.log(seatsInfo)
+    if (movieInfo.seats !== undefined) {
+        moviesArrived = true;
+    } else {
+        moviesArrived = false;
+    }
 
     return (
         <>
-            <MovieSeatsSectionWrapper>
-                <MovieSeatsSectionTitle>Selecione o(s) assento(s)</MovieSeatsSectionTitle>
-                <Seats>
-                    {seatsInfo.map(seat => (
-                        <Seat key={seat.id}>
-                            <p>{seat.name}</p>
-                        </Seat>
-                    ))}
-                </Seats>
-                <SeatsStatesSection>
-                    {seatStatesInfo.map((seatState, i) => (
-                        <SeatState key={i} seatState={seatState}>
-                            <div></div>
-                            <p>{seatState.text}</p>
-                        </SeatState>
-                    ))}
-                </SeatsStatesSection>
-                <MovieSeatsSectionFooter>
-                    <MovieInfo>
-                        <figure>
-                            <img src={movieInfo.posterURL} />
-                        </figure>
-                        <div>
-                            <p>{movieInfo.title}</p>
-                            <p>{timeInfo.date + " - " + timeInfo.hour}</p>
-                        </div>
-                    </MovieInfo>
-                </MovieSeatsSectionFooter>
-            </MovieSeatsSectionWrapper>
+            {moviesArrived ? (
+                <MovieSeatsSectionWrapper>
+                    <MovieSeatsSectionTitle>Selecione o(s) assento(s)</MovieSeatsSectionTitle>
+                    <Seats>
+                        {movieInfo.seats.map(seat => (
+                            <Seat key={seat.id}>
+                                <p>{seat.name}</p>
+                            </Seat>
+                        ))}
+                    </Seats>
+                    <SeatsStatesSection>
+                        {seatStatesInfo.map((seatState, i) => (
+                            <SeatState key={i} seatState={seatState}>
+                                <div></div>
+                                <p>{seatState.text}</p>
+                            </SeatState>
+                        ))}
+                    </SeatsStatesSection>
+                    <MovieSeatsSectionFooter>
+                        <MovieInfo>
+                            <figure>
+                                <img src={movieInfo.movie.posterURL} />
+                            </figure>
+                            <div>
+                                <p>{movieInfo.movie.title}</p>  
+                                <p>{movieInfo.day.weekday + " - " + movieInfo.name}</p>
+                            </div>
+                        </MovieInfo>
+                    </MovieSeatsSectionFooter>
+                </MovieSeatsSectionWrapper>
+            ) : (
+                <Loader/>
+            )}
         </>
     )
 }

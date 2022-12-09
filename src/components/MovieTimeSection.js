@@ -1,7 +1,6 @@
 // libraries
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -11,12 +10,12 @@ import { headerHeight, cineFlexOrange, cineFlexSimpleTextColor, cineFlexHeight, 
 // components
 import Loader from "./Loader";
 
-export default function MovieTimeSection({ movieInfo, setMovieInfo, setTimeInfo }) {
+export default function MovieTimeSection() {
 
     const { idFilme } = useParams()
-
+    const [movieInfo, setMovieInfo] = useState([])
+    
     const movieShowTimesUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
-
     let moviesArrived = false;
 
     useEffect(() => {
@@ -32,12 +31,6 @@ export default function MovieTimeSection({ movieInfo, setMovieInfo, setTimeInfo 
         moviesArrived = false;
     }
 
-    function storeTime(hour, date) {
-        const timeToStore = {hour, date}
-        setTimeInfo(timeToStore)
-    }
-
-
     return (
         <>
             {moviesArrived ? (
@@ -50,10 +43,7 @@ export default function MovieTimeSection({ movieInfo, setMovieInfo, setTimeInfo 
                                     <h2>{movieDay.weekday} - {movieDay.date}</h2>
                                     <Hours>
                                         {movieDay.showtimes.map(showTime => (
-                                            <Link
-                                                to={`/assentos/${showTime.id}`}
-                                                key={showTime.id}
-                                                onClick={() => storeTime(showTime.name, movieDay.weekday) } >
+                                            <Link to={`/assentos/${showTime.id}`} key={showTime.id}>
                                                 <HoursButton>
                                                     <p>{showTime.name}</p>
                                                 </HoursButton>

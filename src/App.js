@@ -1,6 +1,5 @@
 // libraries
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
 
 // reset-css
 import GlobalStyle from "./styles/GlobalStyle";
@@ -13,9 +12,6 @@ import MovieSeatsSection from "./components/MovieSeatsSection";
 
 function App() {
 
-  const [movieInfo, setMovieInfo] = useState([])
-  const [timeInfo, setTimeInfo] = useState([])
-
   return (
     <BrowserRouter>
       <GlobalStyle />
@@ -23,13 +19,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Home />} />
+          element={<Home/>} />
         <Route
           path="/sessoes/:idFilme"
-          element={<MovieTimeSection movieInfo={movieInfo} setMovieInfo={setMovieInfo} setTimeInfo={setTimeInfo}/>} />
+          element={<MovieTimeSection/>} />
         <Route
           path="/assentos/:idSessao"
-          element={<MovieSeatsSection movieInfo={movieInfo} timeInfo={timeInfo}/>} />
+          element={<MovieSeatsSection/>} />
       </Routes>
     </BrowserRouter>
   );
