@@ -9,6 +9,7 @@ import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeigh
 
 // components
 import Loader from "./Loader";
+import Seat from "./Seat";
 
 export default function MovieSeatsSection() {
 
@@ -49,9 +50,7 @@ export default function MovieSeatsSection() {
                     <MovieSeatsSectionTitle>Selecione o(s) assento(s)</MovieSeatsSectionTitle>
                     <Seats>
                         {movieInfo.seats.map(seat => (
-                            <Seat key={seat.id} seatIsAvaiable={seat.isAvailable}>
-                                <p>{seat.name}</p>
-                            </Seat>
+                            <Seat key={seat.id} seat={seat}/>
                         ))}
                     </Seats>
                     <SeatsStatesSection>
@@ -102,21 +101,6 @@ const Seats = styled.section`
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-`
-
-const Seat = styled.button`
-    background: ${props => props.seatIsAvaiable ? availableSeatColor : occupiedSeatColor};
-    border: 1px solid ${props => props.seatIsAvaiable ? availableSeatBorderColor : occupiedSeatBorderColor};
-    border-radius: 13px;
-    width: 26px;
-    height: 26px;
-    margin: 0px 3px 3px 3px;
-    > p {
-        font-family: 'Roboto';
-        font-size: 11px;
-        text-align: center;
-        color: #000000;
-    }
 `
 
 const SeatsStatesSection = styled.section`
