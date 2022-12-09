@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // variables 
-import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor, selectedSeatColor, selectedSeatBorderColor, availableSeatColor, availableSeatBorderColor, occupiedSeatColor, occupiedSeatBorderColor } from "../styles/colorsAndHeights"
+import { headerHeight, cineFlexOrange, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor, selectedSeatColor, selectedSeatBorderColor, availableSeatColor, availableSeatBorderColor, occupiedSeatColor, occupiedSeatBorderColor } from "../styles/colorsAndHeights"
 
 // components
 import Loader from "./Loader";
@@ -15,12 +15,15 @@ export default function MovieSeatsSection() {
 
     const { idSessao } = useParams()
     const [movieInfo, setSeatsInfo] = useState([])
+    const [buyer, setBuyer] = useState("");
+    const [buyerCPF, setBuyerCPF] = useState("");
 
     const seatStatesInfo = [
         { backColor: selectedSeatColor, borderColor: selectedSeatBorderColor, text: "Selecionado" },
         { backColor: availableSeatColor, borderColor: availableSeatBorderColor, text: "Disponível" },
         { backColor: occupiedSeatColor, borderColor: occupiedSeatBorderColor, text: "Indisponível" },
     ]
+
 
     const seatsInfoUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
 
@@ -50,7 +53,7 @@ export default function MovieSeatsSection() {
                     <MovieSeatsSectionTitle>Selecione o(s) assento(s)</MovieSeatsSectionTitle>
                     <Seats>
                         {movieInfo.seats.map(seat => (
-                            <Seat key={seat.id} seat={seat}/>
+                            <Seat key={seat.id} seat={seat} />
                         ))}
                     </Seats>
                     <SeatsStatesSection>
@@ -61,6 +64,31 @@ export default function MovieSeatsSection() {
                             </SeatState>
                         ))}
                     </SeatsStatesSection>
+                    <BuyerForm>
+                        <div>
+                            <p>Nome do comprador:</p>
+                            <input
+                                type="text"
+                                placeholder="Digite seu nome..."
+                                value={buyer}
+                                onChange={e => setBuyer(e.target.value)}
+                            />
+                        </div>
+                        <div>
+                            <p>CPF do comprador:</p>
+                            <input
+                                type="number"
+                                placeholder="Digite seu CPF..."
+                                value={buyerCPF}
+                                onChange={e => setBuyerCPF(e.target.value)}
+                            />
+                        </div>
+                        <button type="submit">
+                            <p>
+                                Reservar assento(s)
+                            </p>
+                        </button>
+                    </BuyerForm>
                     <MovieSeatsSectionFooter>
                         <MovieInfo>
                             <figure>
@@ -166,6 +194,48 @@ const MovieInfo = styled.span`
             font-size: 26px;
             color: ${cineFlexSimpleTextColor};
             margin-left: 0.8em;
+        }
+    }
+`
+
+const BuyerForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2em;
+    > div {
+        margin-bottom: 1em;
+        > p {
+            font-family: 'Roboto';;
+            font-size: 18px;
+            color: ${cineFlexSimpleTextColor};
+            margin-bottom: 5px;
+        }
+        > input {
+            width: 327px;
+            height: 51px;
+            background: #FFFFFF;
+            border: 1px solid #D5D5D5;
+            border-radius: 3px;
+            font-family: 'Roboto';
+            font-style: italic;
+            font-size: 18px;
+            color: #AFAFAF;
+            padding-left: 10px;
+        }
+    }
+    > button {
+        width: 225px;
+        height: 42px;
+        background: ${cineFlexOrange};
+        border-radius: 3px;
+        border: none;
+        margin-top: 1.2em;
+        > p {
+            font-family: 'Roboto';
+            font-size: 18px;
+            color: #FFFFFF;
         }
     }
 `

@@ -26,7 +26,7 @@ const StyledSeat = styled.button`
     border-radius: 13px;
     width: 26px;
     height: 26px;
-    margin: 0px 3px 3px 3px;
+    margin: 0px 6px 6px 6px;
 
     &:hover {
         cursor: pointer;
