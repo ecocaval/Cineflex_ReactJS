@@ -105,8 +105,8 @@ const Seats = styled.section`
 `
 
 const Seat = styled.button`
-    background: #C3CFD9;
-    border: 1px solid #808F9D;
+    background: ${props => props.seatIsAvaiable ? availableSeatColor : occupiedSeatColor};
+    border: 1px solid ${props => props.seatIsAvaiable ? availableSeatBorderColor : occupiedSeatBorderColor};
     border-radius: 13px;
     width: 26px;
     height: 26px;
