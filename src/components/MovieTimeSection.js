@@ -13,33 +13,37 @@ import Loader from "./Loader";
 import MovieSeatsSection from "./MovieSeatsSection";
 
 export default function MovieTimeSection() {
+
     const { idFilme } = useParams()
     const [movieInfo, setMovieInfo] = useState([])
-    const [movieDays, setMovieDays] = useState([]);
+    
     const movieShowTimesUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
+    
+    let moviesArrived = false;
 
     useEffect(() => {
         axios.get(movieShowTimesUrl)
-            .then(res => {                
-                setMovieDays(res.data.days)
+            .then(res => {
                 setMovieInfo(res.data)
             })
     }, [])
 
-    console.log(movieDays);
+    if(movieInfo.days !== undefined) {
+        moviesArrived = true;
+    } else {
+        moviesArrived = false;
+    }
 
-    const movieDaysArrived = (movieDays[0] != undefined ? true : false)
-    
-    return(
+    return (
         <>
-            {movieDaysArrived ? ( 
+            {moviesArrived ? (
                 <MovieTimeSectionWrapper>
                     <MovieTimeSectionTitle>Selecione o horário</MovieTimeSectionTitle>
                     <MovieDays>
                         <ul>
-                            {movieDays.map(movieDay => (    
-                                <DayAndHoursOption key={movieDay.id}> 
-                                    <h2>{movieDay.weekday} - {movieDay.date}</h2> 
+                            {movieInfo.days.map(movieDay => (
+                                <DayAndHoursOption key={movieDay.id}>
+                                    <h2>{movieDay.weekday} - {movieDay.date}</h2>
                                     <Hours>
                                         {movieDay.showtimes.map(showTime => (
                                             <Link key={showTime.id} to={`/assentos/${showTime.id}`}>
@@ -56,14 +60,14 @@ export default function MovieTimeSection() {
                     <MovieTimeSectionFooter>
                         <MovieInfo>
                             <figure>
-                                <img src={movieInfo.posterURL}/>
+                                <img src={movieInfo.posterURL} />
                             </figure>
                             <p>{movieInfo.title}</p>
                         </MovieInfo>
                     </MovieTimeSectionFooter>
                 </MovieTimeSectionWrapper>
             ) : (
-                <Loader/>
+                <Loader />
             )}
         </>
     )

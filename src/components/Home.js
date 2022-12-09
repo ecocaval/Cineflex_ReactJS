@@ -10,18 +10,18 @@ import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight } from "../styles
 // components
 import Loader from "./Loader"
 
-export default function Home(){
+export default function Home() {
 
     const moviesUrl = "https://mock-api.driven.com.br/api/v8/cineflex/movies"
     const [moviesList, setMoviesList] = useState([])
-    const moviesArrived = !(moviesList[0]===undefined)
+    const moviesArrived = !(moviesList[0] === undefined)
 
     useEffect(() => {
         axios.get(moviesUrl)
             .then(res => {
                 setMoviesList(res.data);
             })
-            .catch( err => {
+            .catch(err => {
                 console.error(err);
             })
     }, [])
@@ -33,16 +33,16 @@ export default function Home(){
                     <HomeTitle>Selecione o Filme</HomeTitle>
                     <MoviesWrapper>
                         {moviesList.map(movie => (
-                                <Link to={`/sessoes/${movie.id}`} key={movie.id}>
-                                    <img src={movie.posterURL}/>
-                                </Link>
-                            ))}
+                            <Link to={`/sessoes/${movie.id}`} key={movie.id}>
+                                <img src={movie.posterURL} />
+                            </Link>
+                        ))}
                     </MoviesWrapper>
                 </HomeWrapper>
             ) : (
-                <Loader/>
+                <Loader />
             )}
-        </>        
+        </>
     )
 }
 

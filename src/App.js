@@ -13,8 +13,8 @@ import MovieSeatsSection from "./components/MovieSeatsSection";
 function App() {
   return (
     <BrowserRouter>
-      <GlobalStyle/>
-      <NavBar/>
+      <GlobalStyle />
+      <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sessoes/:idFilme" element={<MovieTimeSection />} />
