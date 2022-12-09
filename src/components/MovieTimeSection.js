@@ -10,15 +10,13 @@ import { headerHeight, cineFlexOrange, cineFlexSimpleTextColor, cineFlexHeight, 
 
 // components
 import Loader from "./Loader";
-import MovieSeatsSection from "./MovieSeatsSection";
 
-export default function MovieTimeSection() {
+export default function MovieTimeSection({ movieInfo, setMovieInfo, setTimeInfo }) {
 
     const { idFilme } = useParams()
-    const [movieInfo, setMovieInfo] = useState([])
-    
+
     const movieShowTimesUrl = `https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`
-    
+
     let moviesArrived = false;
 
     useEffect(() => {
@@ -28,11 +26,17 @@ export default function MovieTimeSection() {
             })
     }, [])
 
-    if(movieInfo.days !== undefined) {
+    if (movieInfo.days !== undefined) {
         moviesArrived = true;
     } else {
         moviesArrived = false;
     }
+
+    function storeTime(hour, date) {
+        const timeToStore = {hour, date}
+        setTimeInfo(timeToStore)
+    }
+
 
     return (
         <>
@@ -46,7 +50,10 @@ export default function MovieTimeSection() {
                                     <h2>{movieDay.weekday} - {movieDay.date}</h2>
                                     <Hours>
                                         {movieDay.showtimes.map(showTime => (
-                                            <Link key={showTime.id} to={`/assentos/${showTime.id}`}>
+                                            <Link
+                                                to={`/assentos/${showTime.id}`}
+                                                key={showTime.id}
+                                                onClick={() => storeTime(showTime.name, movieDay.weekday) } >
                                                 <HoursButton>
                                                     <p>{showTime.name}</p>
                                                 </HoursButton>

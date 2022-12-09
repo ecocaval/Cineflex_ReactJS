@@ -1,5 +1,6 @@
 // libraries
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 // reset-css
 import GlobalStyle from "./styles/GlobalStyle";
@@ -11,14 +12,24 @@ import MovieTimeSection from "./components/MovieTimeSection"
 import MovieSeatsSection from "./components/MovieSeatsSection";
 
 function App() {
+
+  const [movieInfo, setMovieInfo] = useState([])
+  const [timeInfo, setTimeInfo] = useState([])
+
   return (
     <BrowserRouter>
       <GlobalStyle />
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/sessoes/:idFilme" element={<MovieTimeSection />} />
-        <Route path="/assentos/:idSessao" element={<MovieSeatsSection />} />
+        <Route
+          path="/"
+          element={<Home />} />
+        <Route
+          path="/sessoes/:idFilme"
+          element={<MovieTimeSection movieInfo={movieInfo} setMovieInfo={setMovieInfo} setTimeInfo={setTimeInfo}/>} />
+        <Route
+          path="/assentos/:idSessao"
+          element={<MovieSeatsSection movieInfo={movieInfo} timeInfo={timeInfo}/>} />
       </Routes>
     </BrowserRouter>
   );

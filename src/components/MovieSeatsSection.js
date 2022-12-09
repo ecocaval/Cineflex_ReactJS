@@ -8,24 +8,27 @@ import styled from "styled-components";
 // variables 
 import { headerHeight, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor } from "../styles/colorsAndHeights"
 
-export default function MovieSeatsSection() {
+export default function MovieSeatsSection({ movieInfo, timeInfo }) {
 
     const { idSessao } = useParams()
 
     const seatsInfoUrl = `https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${idSessao}/seats`
     const [seatsInfo, setSeatsIngo] = useState([])
     const seatStatesInfo = [
-        { backColor: "#1AAE9E"  ,
-          borderColor: "#0E7D71" ,
-          text: "Selecionado"
+        {
+            backColor: "#1AAE9E",
+            borderColor: "#0E7D71",
+            text: "Selecionado"
         },
-        { backColor: "#C3CFD9"  ,
-          borderColor: "#7B8B99" ,
-          text: "Disponível"
+        {
+            backColor: "#C3CFD9",
+            borderColor: "#7B8B99",
+            text: "Disponível"
         },
-        { backColor: "#FBE192"  ,
-          borderColor: "#F7C52B" ,
-          text: "Indisponível"
+        {
+            backColor: "#FBE192",
+            borderColor: "#F7C52B",
+            text: "Indisponível"
         },
     ]
 
@@ -53,13 +56,24 @@ export default function MovieSeatsSection() {
                     ))}
                 </Seats>
                 <SeatsStatesSection>
-                    {seatStatesInfo.map((seatState,i) => (
+                    {seatStatesInfo.map((seatState, i) => (
                         <SeatState key={i} seatState={seatState}>
                             <div></div>
                             <p>{seatState.text}</p>
                         </SeatState>
                     ))}
                 </SeatsStatesSection>
+                <MovieSeatsSectionFooter>
+                    <MovieInfo>
+                        <figure>
+                            <img src={movieInfo.posterURL} />
+                        </figure>
+                        <div>
+                            <p>{movieInfo.title}</p>
+                            <p>{timeInfo.date + " - " + timeInfo.hour}</p>
+                        </div>
+                    </MovieInfo>
+                </MovieSeatsSectionFooter>
             </MovieSeatsSectionWrapper>
         </>
     )
@@ -160,10 +174,12 @@ const MovieInfo = styled.span`
             height: 72px;
         }
     }
-    > p {
-        font-family: 'Roboto';
-        font-size: 26px;
-        color: ${cineFlexSimpleTextColor};
-        margin-left: 0.8em;
+    > div {
+        > p {
+            font-family: 'Roboto';
+            font-size: 26px;
+            color: ${cineFlexSimpleTextColor};
+            margin-left: 0.8em;
+        }
     }
 `

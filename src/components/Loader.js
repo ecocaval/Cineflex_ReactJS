@@ -5,7 +5,7 @@ import { headerHeight } from "../styles/colorsAndHeights"
 export default function Loader() {
     return (
         <LoaderWrapper>
-            <img src={loader}/>
+            <img src={loader} />
         </LoaderWrapper>
     )
 }
