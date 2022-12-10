@@ -35,6 +35,7 @@ export default function Seat({ seat, selectedSeatsIds, setSelectedSeatsIds, sele
 
     return (
         <StyledSeat
+            data-test="seat" 
             seatIsAvailable={seat.isAvailable}
             seatIsSelected={seatIsSelected}
             onClick={selectSeat}

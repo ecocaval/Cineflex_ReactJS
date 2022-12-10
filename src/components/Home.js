@@ -33,7 +33,7 @@ export default function Home() {
                     <HomeTitle>Selecione o Filme</HomeTitle>
                     <MoviesWrapper>
                         {moviesList.map(movie => (
-                            <Link to={`/sessoes/${movie.id}`} key={movie.id}>
+                            <Link to={`/sessoes/${movie.id}`} key={movie.id} data-test="movie">
                                 <img src={movie.posterURL} />
                             </Link>
                         ))}

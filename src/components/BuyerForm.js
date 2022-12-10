@@ -13,7 +13,7 @@ export default function BuyerForm({ selectedSeatsIds, setBuyer, setBuyerCPF, buy
 
     function sendSeatsRequest(event) {
         event.preventDefault();
-        
+
         const sendSeatsUrl = "https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many"
 
         axios.post(sendSeatsUrl, {
@@ -33,6 +33,7 @@ export default function BuyerForm({ selectedSeatsIds, setBuyer, setBuyerCPF, buy
             <InputWrapper>
                 <p>Nome do comprador:</p>
                 <input
+                    data-test="client-name"
                     type="text"
                     placeholder="Digite seu nome..."
                     value={buyer}
@@ -42,13 +43,14 @@ export default function BuyerForm({ selectedSeatsIds, setBuyer, setBuyerCPF, buy
             <InputWrapper>
                 <p>CPF do comprador:</p>
                 <input
+                    data-test="client-cpf"
                     type="text"
                     placeholder="Digite seu CPF..."
                     value={buyerCPF}
                     onChange={e => setBuyerCPF(e.target.value)}
                 />
             </InputWrapper>
-            <BuyerFormButton type="submit">
+            <BuyerFormButton type="submit" data-test="book-seat-btn">
                 <p>Reservar assento(s)</p>
             </BuyerFormButton>
         </BuyerFormWrapper>

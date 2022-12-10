@@ -38,12 +38,12 @@ export default function MovieTimeSection({ movieInfo, setMovieInfo }) {
                     <MovieDays>
                         <ul>
                             {movieInfo.days.map(movieDay => (
-                                <DayAndHoursOption key={movieDay.id}>
+                                <DayAndHoursOption key={movieDay.id} data-test="movie-day">
                                     <h2>{movieDay.weekday} - {movieDay.date}</h2>
                                     <Hours>
                                         {movieDay.showtimes.map(showTime => (
                                             <Link to={`/assentos/${showTime.id}`} key={showTime.id}>
-                                                <HoursButton>
+                                                <HoursButton data-test="showtime">
                                                     <p>{showTime.name}</p>
                                                 </HoursButton>
                                             </Link>
@@ -53,7 +53,7 @@ export default function MovieTimeSection({ movieInfo, setMovieInfo }) {
                             ))}
                         </ul>
                     </MovieDays>
-                    <MovieTimeSectionFooter>
+                    <MovieTimeSectionFooter data-test="footer">
                         <MovieInfo>
                             <figure>
                                 <img src={movieInfo.posterURL} />

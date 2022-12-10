@@ -23,26 +23,26 @@ export default function SucessPage({ seatsInfo, selectedSeatsNumbers, buyer, buy
                 <SucessMessage>Pedido feito com sucesso!</SucessMessage>
             </SucessMessageWrapper>
             <InfoSection>
-                <div>
+                <div data-test="movie-info">
                     <h2>Filme e sessão</h2>
                     <div>
                         <p>{seatsInfo.movie.title}</p>
                         <p>{seatsInfo.day.date} {seatsInfo.name}</p>
                     </div>
                 </div>
-                <div>
+                <div  data-test="seats-info"    >
                     <h2>Ingressos</h2>
                     {selectedSeatsNumbers.map((seatN) => (
                         <p key={seatN}>Assento {seatN}</p>
                     ))}
                 </div>
-                <div>
+                <div data-test="client-info">
                     <h2>Comprador</h2>
                     <p>Nome: {buyer}</p>
                     <p>CPF: {buyerCPF}</p>
                 </div>
             </InfoSection>
-            <GoHomeButton onClick={() => goHome()}>
+            <GoHomeButton data-test="go-home-btn" onClick={() => goHome()}>
                 <p>Voltar pra Home</p>
             </GoHomeButton>
         </SucessPageWrapper>

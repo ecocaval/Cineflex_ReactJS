@@ -76,7 +76,7 @@ export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSea
                         buyer={buyer}
                         buyerCPF={buyerCPF}
                     />
-                    <MovieSeatsSectionFooter>
+                    <MovieSeatsSectionFooter data-test="footer">
                         <MovieInfo>
                             <figure>
                                 <img src={seatsInfo.movie.posterURL} />
