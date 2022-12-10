@@ -20,6 +20,8 @@ function App() {
   const [seatsInfo, setSeatsInfo] = useState([])
   const [selectedSeatsIds, setSelectedSeatsIds] = useState([])
   const [selectedSeatsNumbers, setSelectedSeatsNumbers] = useState([])
+  const [buyer, setBuyer] = useState("");
+  const [buyerCPF, setBuyerCPF] = useState("");
 
   return (
     <BrowserRouter>
@@ -34,11 +36,37 @@ function App() {
           element={<MovieTimeSection movieInfo={movieInfo} setMovieInfo={setMovieInfo} />} />
         <Route
           path="/assentos/:idSessao"
-          element={<MovieSeatsSection seatsInfo={seatsInfo} setSeatsInfo={setSeatsInfo} selectedSeatsIds={selectedSeatsIds} setSelectedSeatsIds={setSelectedSeatsIds}
-          selectedSeatsNumbers={selectedSeatsNumbers} setSelectedSeatsNumbers={setSelectedSeatsNumbers} />} />
+          element={
+            <MovieSeatsSection
+              seatsInfo={seatsInfo}
+              setSeatsInfo={setSeatsInfo}
+              selectedSeatsIds={selectedSeatsIds}
+              setSelectedSeatsIds={setSelectedSeatsIds}
+              selectedSeatsNumbers={selectedSeatsNumbers}
+              setSelectedSeatsNumbers={setSelectedSeatsNumbers}
+              buyer={buyer}
+              setBuyer={setBuyer}
+              buyerCPF={buyerCPF}
+              setBuyerCPF={setBuyerCPF}
+            />
+          }
+        />
         <Route
           path="/sucesso"
-          element={<SucessPage seatsInfo={seatsInfo} selectedSeatsNumbers={selectedSeatsNumbers} />}
+          element={
+            <SucessPage
+              seatsInfo={seatsInfo}
+              selectedSeatsNumbers={selectedSeatsNumbers}
+              buyer={buyer}
+              buyerCPF={buyerCPF}
+              setMovieInfo={setMovieInfo}
+              setSeatsInfo={setSeatsInfo}
+              setSelectedSeatsIds={setSelectedSeatsIds}
+              setSelectedSeatsNumbers={setSelectedSeatsNumbers}
+              setBuyer={setBuyer}
+              setBuyerCPF={setBuyerCPF}
+            />
+          }
         />
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 // libraries
 import { useParams, Link } from "react-router-dom"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 

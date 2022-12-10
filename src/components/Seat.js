@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { availableSeatColor, availableSeatBorderColor, occupiedSeatColor, occupiedSeatBorderColor, selectedSeatColor, selectedSeatBorderColor } from "../styles/colorsAndHeights"
 
 export default function Seat({ seat, selectedSeatsIds, setSelectedSeatsIds, selectedSeatsNumbers, setSelectedSeatsNumbers }) {
-    // const [seatIsSelected, setSeatIsSelected] = useState(false)
 
     const seatIsSelected = selectedSeatsIds.includes(seat.id)
 

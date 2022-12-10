@@ -1,18 +1,18 @@
 // libraries
 import { useParams } from "react-router-dom"
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 // variables 
-import { headerHeight, cineFlexOrange, cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor, selectedSeatColor, selectedSeatBorderColor, availableSeatColor, availableSeatBorderColor, occupiedSeatColor, occupiedSeatBorderColor } from "../styles/colorsAndHeights"
+import { headerHeight ,cineFlexSimpleTextColor, cineFlexHeight, mvSecFooterHeight, mvSecFooterColor, selectedSeatColor, selectedSeatBorderColor, availableSeatColor, availableSeatBorderColor, occupiedSeatColor, occupiedSeatBorderColor } from "../styles/colorsAndHeights"
 
 // components
 import Loader from "./Loader";
 import Seat from "./Seat";
 import BuyerForm from "./BuyerForm";
 
-export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSeatsIds, setSelectedSeatsIds, selectedSeatsNumbers, setSelectedSeatsNumbers }) {
+export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSeatsIds, setSelectedSeatsIds, selectedSeatsNumbers, setSelectedSeatsNumbers, buyer, setBuyer, buyerCPF, setBuyerCPF }) {
 
     const { idSessao } = useParams()
 
@@ -47,7 +47,7 @@ export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSea
     return (
         <>
             {moviesArrived ? (
-                <main>
+                <StyledMovieSeatsSection>
                     <MovieSeatsSectionTitle>Selecione o(s) assento(s)</MovieSeatsSectionTitle>
                     <Seats>
                         {seatsInfo.seats.map(seat => (
@@ -56,7 +56,8 @@ export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSea
                                 seat={seat}
                                 selectedSeatsIds={selectedSeatsIds}
                                 setSelectedSeatsIds={setSelectedSeatsIds}
-                                selectedSeatsNumbers={selectedSeatsNumbers} setSelectedSeatsNumbers={setSelectedSeatsNumbers}
+                                selectedSeatsNumbers={selectedSeatsNumbers}
+                                setSelectedSeatsNumbers={setSelectedSeatsNumbers}
                             />
                         ))}
                     </Seats>
@@ -68,7 +69,13 @@ export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSea
                             </SeatState>
                         ))}
                     </SeatsStatesSection>
-                    <BuyerForm selectedSeatsIds={selectedSeatsIds} />
+                    <BuyerForm
+                        selectedSeatsIds={selectedSeatsIds}
+                        setBuyer={setBuyer}
+                        setBuyerCPF={setBuyerCPF}
+                        buyer={buyer}
+                        buyerCPF={buyerCPF}
+                    />
                     <MovieSeatsSectionFooter>
                         <MovieInfo>
                             <figure>
@@ -80,7 +87,7 @@ export default function MovieSeatsSection({ seatsInfo, setSeatsInfo, selectedSea
                             </div>
                         </MovieInfo>
                     </MovieSeatsSectionFooter>
-                </main>
+                </StyledMovieSeatsSection>
             ) : (
                 <Loader />
             )}
@@ -173,4 +180,9 @@ const MovieInfo = styled.span`
             margin-left: 0.8em;
         }
     }
+`
+
+const StyledMovieSeatsSection = styled.main`
+    overflow-y: scroll;
+    height: calc(calc(100vh - ${headerHeight}) - ${mvSecFooterHeight});
 `

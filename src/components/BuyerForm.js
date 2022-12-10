@@ -7,10 +7,8 @@ import styled from "styled-components";
 // variables 
 import { cineFlexOrange, cineFlexSimpleTextColor } from "../styles/colorsAndHeights"
 
-export default function BuyerForm({ selectedSeatsIds }) {
+export default function BuyerForm({ selectedSeatsIds, setBuyer, setBuyerCPF, buyer, buyerCPF }) {
 
-    const [buyer, setBuyer] = useState("");
-    const [buyerCPF, setBuyerCPF] = useState("");
     const navigate = useNavigate()
 
     function sendSeatsRequest(event) {
@@ -94,6 +92,7 @@ const BuyerFormButton = styled.button`
     border-radius: 3px;
     border: none;
     margin-top: 1.2em;
+    margin-bottom: 2em;
     > p {
         font-family: 'Roboto';
         font-size: 18px;
