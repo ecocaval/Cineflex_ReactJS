@@ -7,8 +7,6 @@
 
 ## :white_circle: Technologies
 
-- [JavaScript](https://www.javascript.com/)
-- [HTML5](https://html5.org/)
 - [ReactJS](https://reactjs.org/)
 - [Styled-Components](https://styled-components.com/)
 - [Axios](https://axios-http.com/docs/intro)
