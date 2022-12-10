@@ -33,4 +33,4 @@ npm start
 
 The website is also acessable through the vercel deploy, click the following link to see it: 
 
-- [Enter the game](https://cineflex-react-js.vercel.app/)
+- [CineFLex website](https://cineflex-react-js.vercel.app/)
